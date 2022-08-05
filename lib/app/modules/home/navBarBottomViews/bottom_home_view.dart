@@ -90,13 +90,9 @@ class BottomHomeView extends GetView<HomeController> {
         SizedBox(height: 7.h),
         SizedBox(
           height: 140.h,
-          child: ListView.builder(
-            padding: const EdgeInsets.only(left: 20),
-            scrollDirection: Axis.horizontal,
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) =>
+          child:
                 PopularOfferItem(),
-          ),
+
         )
       ],
     );
@@ -251,6 +247,13 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
          //
          //   },
          // ) ),
+         //  Obx(()=>ListView.builder(
+         //    itemCount: controller.getposts.length,
+         //    itemBuilder: (context,index){
+         //      final data=controller.getposts[index];
+         //      return Image.network("https://phptravels.net"+"/"+data.slider![index].slideImage.toString());
+         //    },
+         //  )),
 
 
           Positioned(
@@ -325,13 +328,6 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
                      itemCount: homeController.getposts.length,
                      // itemCount: controller.listData!.results!.length,
                      itemBuilder: (context, index) {
-                       // String image='';
-                       // String title="";
-                       // try{
-                       //   title=controller.listData!.results![index].name.toString();
-                       // }catch(e){
-                       //   title='';
-                       // }
                        var item=homeController.getposts[index];
                        return Container(
                          width: MediaQuery.of(context).size.width*0.25,
@@ -419,23 +415,3 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }
-
-
-// class Bottom_Home_View extends StatefulWidget {
-//   const Bottom_Home_View({Key? key}) : super(key: key);
-//
-//   @override
-//   _Bottom_Home_ViewState createState() => _Bottom_Home_ViewState();
-// }
-//
-// class _Bottom_Home_ViewState extends State<Bottom_Home_View> {
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }

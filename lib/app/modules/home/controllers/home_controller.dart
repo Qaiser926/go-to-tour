@@ -34,87 +34,6 @@ class HomeController extends GetxController {
     ProfileView(),
   ];
 
-  //
-  // final String url2 = 'https://randomuser.me/api/?results=10';
-  // final String url = 'https://phptravels.net/api/api/main/app?appKey=phptravels&lang=en&currency=usd';
-  //
-  // // Future<List<dynamic>> getUser() async {
-  // //   // final response = await get('https://randomuser.me/api/?results=10');
-  // //   Response response = await get(
-  // //       (url),
-  // //   );
-  // //   print(response.body);
-  // //   if (response.status.hasError) {
-  // //     // log('yaha par b error he ');
-  // //     return Future.error(response.statusText.toString());
-  // //
-  // //   } else {
-  // //     log('yaha tak to tik he ');
-  // //     return response.body["modules"];
-  // //     // return response.body['results'];
-  // //     // return response.body['payment_gateways'];
-  // //   }
-  // // }
-  //
-  //
-  // // fianl String url='https://randomuser.me/api/?results=10';
-  //
-  // // Future<dynamic> getUser() async {
-  // //   // http.Response response =
-  // //       // await http.get(Uri.parse('https://randomuser.me/api/?results=10'));
-  // //
-  // // //
-  // //   http.Response response = await http.get(Uri.parse(
-  // //       'https://phptravels.net/api/api/main/app?appKey=phptravels&lang=en&currency=usd'));
-  // //   print(response.body);
-  // //   var data = jsonDecode(response.body);
-  // //   if (response.statusCode == 200) {
-  // //     // return HomeOfferListModelClass.fromJson(data);
-  // //   } else {
-  // //     // return HomeOfferListModelClass.fromJson(data);
-  // //   }
-  // //   final responseBody=jsonDecode(response.body) as List;
-  // //   final allPostList= responseBody.map((e) => HomeOfferListModelClass.fromJson(e)).toList();
-  // //   return allPostList;
-  // // }
-  //
-  //
-  // // List<HomeOfferListModelClass> _postList =<HomeOfferListModelClass>[].obs;
-  // HomeofferListModel? listData;
-  // var isDataLoading=false.obs;
-  // // Future<dynamic> getUser() async {
-  // //   http.Response response = await http.get(Uri.parse(url2));
-  // //   // List listData;
-  // //   // var extraData=json.decode(response.body);
-  // //   var data=jsonDecode(response.body);
-  // //   print(response.body);
-  // //   // listData=extraData['featured_hotels'];
-  // //   // print(listData[0]['name']);
-  // //   if (response.statusCode == 200) {
-  // //     return HomeofferListModel.fromJson(data);
-  // //   } else {
-  // //     return HomeofferListModel.fromJson(data);
-  // //   }
-  // //   // return listData;
-  // // }
-  // Future getUser() async{
-  //
-  //   try{
-  //     isDataLoading(true);
-  //     http.Response response=await http.get(Uri.parse(url2));
-  //
-  //     if(response.statusCode==200){
-  //       var results=jsonDecode(response.body);
-  //       listData= HomeofferListModel.fromJson(results);
-  //     }else{
-  //
-  //     }
-  //   }catch(e){
-  //     print("Error whitel getting data : $e");
-  //   }finally{
-  //     isDataLoading(false);
-  //   }
-
 
   @override
   void onInit() {
@@ -128,22 +47,19 @@ class HomeController extends GetxController {
       log(err.toString());
     });*/
     fetchProduct();
-    // }
-    // void fetchProduct() async{
-    // var isLoading(true);
-    // var product=await UserProvider().getUser();
-    // if(product!=null){
-    //   productList.assignAll(product);
-    // }
-    // }
+
   }
   fetchProduct()async{
 
   var results= await services.getUser();
+  log('yaha tak to tik he 11');
  if(results!=null){
+   log('yaha tak b tik he 12');
    getposts.assignAll(results);
+   print(results);
  }else{
    print('null');
+   log('yaha par error he ');
  }
   }
   @override
