@@ -13,6 +13,7 @@ import '../controllers/flight_controller.dart';
 
 class FlightView extends GetView<FlightController> {
   final homecontroller=Get.find<HomeController>();
+  List<String> day=['sun','mon','Thu','Wed','Thu','Sat'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +42,22 @@ class FlightView extends GetView<FlightController> {
       body: ListView(
         children: [
           _buildHOraizontalDate(),
-          FlightCardComponent(),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: CustomColors.primary,
+            ),
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              separatorBuilder: (_, int i) {
+                return SizedBox(height: 16);
+              },
+              itemCount: 1,
+              itemBuilder: (_, int index) => FlightCardComponent()
+            ),
+          )
         ],
       ),
     );
@@ -56,7 +72,7 @@ class FlightView extends GetView<FlightController> {
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 30,
+        itemCount:day.length ,
         itemBuilder: (_, int i) {
           return InkWell(
             onTap: () => controller.selectedItem(i),
@@ -74,7 +90,7 @@ class FlightView extends GetView<FlightController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Sat',
+                       day[i],
                         style: TextStyle(
                             fontSize: 12,
                             height: 1.5,

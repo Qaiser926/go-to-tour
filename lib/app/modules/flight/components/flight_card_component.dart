@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -7,122 +9,58 @@ import 'package:go_tour/app/modules/home/controllers/home_controller.dart';
 import 'package:go_tour/app/routes/app_pages.dart';
 import 'package:go_tour/constants/custom_colors.dart';
 
-class FlightCardComponent extends StatefulWidget {
+class FlightCardComponent extends StatelessWidget {
    FlightCardComponent({Key? key}) : super(key: key);
 
-  @override
-  State<FlightCardComponent> createState() => _FlightCardComponentState();
-}
-
-class _FlightCardComponentState extends State<FlightCardComponent> {
-  // final homeController=Get.find<HomeController>();
-
-
-   HomeController homeController=Get.put(HomeController());
-
+  final homeController=Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>   ListView.builder(
-      itemCount:
-      homeController.modal.value.featuredFlights!.length,
-      itemBuilder: (context,index){
-        return   ClipPath(
-          clipper: DolDurmaClipper(holeRadius: 20),
-          child: InkWell(
+    return Container(
+
+      width: Get.size.width,
+      height: Get.size.height,
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: homeController.modal.value.featuredFlights!.length,
+        itemBuilder: (context,index){
+          final listData=homeController.modal.value.featuredFlights![index];
+          return ClipPath(
+            clipper: DolDurmaClipper(holeRadius: 25),
+            child: InkWell(
               onTap: () => Get.toNamed(Routes.SELECT_SEAT),
-              child:    Container(
-                  padding: const EdgeInsets.all(8),
+
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: CustomColors.primary,
+                    color: Colors.white,
                   ),
-                  child:Obx(()
-                  {
-                    if (homeController.isLoading.value) {
-                      return Center(child: const CircularProgressIndicator());
-                    }
-                      if (homeController.isEmptyData.value) {
-                      return Center(
-                          child: InkWell(
-                            onTap: () {},
-                            child: const Text("No Data Found"),
-                          ));
-                    }
-                    return
-                      ListView.separated(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          separatorBuilder: (c,i){
-                            return Text('a');
-                          },
-                          // itemCount: homeController.modal.value.featuredFlights!.length,
-                          itemCount: 10,
-                          // itemBuilder: (_, int index) => FlightCardComponent(),
-                          itemBuilder: (_, int index) =>  Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Colors.white,
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 24),
-                            child:   Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.white,
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 24),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _cardHeader(),
-                                  Container(
-                                      margin: const EdgeInsets.symmetric(vertical: 12),
-                                      height: 1,
-                                      color: const Color(0xffE5E5E5)),
-                                  _cardBody(),
-                                  _lineWithBus(),
-                                  _cardFooter(),
-                                ],
-                              ),
-                            ),
-
-                          )
-                      );
-                  }
-                  )
-
-                /* ListView.builder(
-        itemCount: homeController.modal.value.featuredFlights!.length,
-          itemBuilder: (context,index){
-            final listData=homeController.modal.value.featuredFlights![index];
-            return  Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // _cardHeader(),
-                Text('asdf'),
-
-                Container(
-                    margin: const EdgeInsets.symmetric(vertical: 12),
-                    height: 1,
-                    color: const Color(0xffE5E5E5)),
-                _cardBody(),
-                _lineWithBus(),
-                _cardFooter(),
-              ],
-            );
-          },
-        )*/
-              )
-
-          ),
-        );
-      },
-    )
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _cardHeader(index),
+                      Container(
+                          margin: const EdgeInsets.symmetric(vertical: 12),
+                          height: 1,
+                          color: const Color(0xffE5E5E5)),
+                      _cardBody(index),
+                      _lineWithBus(),
+                      _cardFooter(index),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
-
   }
 
-   // Container(
   Container _lineWithBus() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
@@ -171,7 +109,8 @@ class _FlightCardComponentState extends State<FlightCardComponent> {
     );
   }
 
-  Padding _cardFooter() {
+  Padding _cardFooter(int index) {
+    final listData=homeController.modal.value.featuredFlights![index];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
@@ -179,7 +118,7 @@ class _FlightCardComponentState extends State<FlightCardComponent> {
         children: [
           Row(
             children: [
-              Text('\$100',
+              Text('\$${listData.price.toString()}',
                   style: TextStyle(
                     fontSize: 18,
                     height: 1.5,
@@ -196,10 +135,11 @@ class _FlightCardComponentState extends State<FlightCardComponent> {
             ],
           ),
           Row(
-            children: const [
+            children:  [
               Icon(Icons.error, color: CustomColors.primary, size: 10),
               SizedBox(width: 4),
-              Text('Flight Info',
+              // Text('Flight Info',
+              Text(listData.desc.toString(),
                   style: TextStyle(
                     fontSize: 10,
                     height: 1.2,
@@ -212,7 +152,8 @@ class _FlightCardComponentState extends State<FlightCardComponent> {
     );
   }
 
-  Padding _cardBody() {
+  Padding _cardBody(int index) {
+    final listData=homeController.modal.value.featuredFlights![index];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
@@ -271,7 +212,8 @@ class _FlightCardComponentState extends State<FlightCardComponent> {
     );
   }
 
-  Padding _cardHeader() {
+  Padding _cardHeader(int data) {
+    final myData=homeController.modal.value.featuredFlights![data];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
@@ -282,7 +224,7 @@ class _FlightCardComponentState extends State<FlightCardComponent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'to',
+                homeController.modal.value.featuredFlights![data].to.toString(),
                 style: TextStyle(
                     color: CustomColors.primary,
                     fontSize: 18,
@@ -297,8 +239,8 @@ class _FlightCardComponentState extends State<FlightCardComponent> {
               ),
             ],
           ),
-          Image.asset(
-            'assets/icons/airways.png',
+          Image.network(
+            myData.thumbnail.toString(),
             height: 28,
             width: 68,
             fit: BoxFit.fill,
@@ -307,7 +249,7 @@ class _FlightCardComponentState extends State<FlightCardComponent> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                'Comilla',
+                myData.from.toString(),
                 style: TextStyle(
                     color: CustomColors.primary,
                     fontSize: 18,
