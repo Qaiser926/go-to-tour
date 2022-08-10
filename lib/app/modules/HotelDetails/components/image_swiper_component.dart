@@ -2,12 +2,15 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_tour/app/components/book_mark_icon.dart';
+import 'package:go_tour/app/modules/home/controllers/home_controller.dart';
 import 'package:go_tour/utils/utils.dart';
 
 class ImageSwiperComponent extends StatefulWidget {
-  const ImageSwiperComponent({Key? key, required this.images})
+
+   ImageSwiperComponent({Key? key, required this.images})
       : super(key: key);
 
+  final homeController=Get.find<HomeController>();
   final List<String> images;
 
   @override

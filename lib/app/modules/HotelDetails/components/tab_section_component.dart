@@ -8,8 +8,10 @@ import 'package:go_tour/constants/custom_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TabSectionComponent extends StatefulWidget {
-  const TabSectionComponent({Key? key}) : super(key: key);
 
+   TabSectionComponent({Key? key}) : super(key: key);
+
+  dynamic argumentData = Get.arguments;
   @override
   _TabSectionComponentState createState() => _TabSectionComponentState();
 }
@@ -184,14 +186,7 @@ class _TabSectionComponentState extends State<TabSectionComponent> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          'Monotonectally transform premium convergence without client-centered leadership skills. Holisticly deploy resource maximizing catalysts for change and installed base synergy. Rapidiously e-enable multidisciplinary results whereas optimal materials. Quickly utilize magnetic systems before economically sound e-commerce. Seamlessly incubate strategic models before out-of-the-box data.',
-          style: TextStyle(color: Colors.grey, fontSize: 12, height: 1.8),
-        ),
-        Text(
-          'Monotonectally transform premium convergence without client-centered leadership skills. Holisticly deploy resource maximizing catalysts for change and installed base synergy. Rapidiously e-enable multidisciplinary results whereas optimal materials. Quickly utilize magnetic systems before economically sound e-commerce. Seamlessly incubate strategic models before out-of-the-box data.',
-          style: TextStyle(color: Colors.grey, fontSize: 12, height: 1.8),
-        ),
+       Text('yaha par description he'),
         SizedBox(height: 25),
         Container(
           padding: const EdgeInsets.all(6),

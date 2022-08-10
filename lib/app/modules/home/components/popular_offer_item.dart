@@ -15,13 +15,27 @@ class PopularOfferItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=> ListView.builder(
+    return Obx((){
+        if (controller.isLoading.value) {
+      return Center(child: const CircularProgressIndicator());
+    }
+    if (controller.isEmptyData.value) {
+      return Center(
+          child: InkWell(
+            onTap: () {},
+            child: const Text("No Data Found"),
+          ));
+    }
+
+    return    ListView.builder(
         padding: const EdgeInsets.only(left: 20),
         scrollDirection: Axis.horizontal,
-        itemCount: controller.getposts.length,
+        itemCount: controller.modal.value.featuredFlights!.length,
+        // itemCount: controller.modal.value.results!.length,
         // itemCount: ,
         itemBuilder: (BuildContext context, int index) {
-          final itemData=controller.getposts[index];
+          final itemData=controller.modal.value.featuredFlights![index];
+          // final itemData=controller.modal.value.results![index];
           return
             Card(
               elevation: 0,
@@ -34,7 +48,8 @@ class PopularOfferItem extends StatelessWidget {
               margin: EdgeInsets.only(right: 8),
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(itemData.featuredFlights![index].thumbnail.toString()),
+                  // image: NetworkImage(itemData.picture!.large.toString()),
+                  image: NetworkImage(itemData.thumbnail.toString()),
                   fit: BoxFit.contain
                 ),
                 // color: Colors.amber,
@@ -55,7 +70,8 @@ class PopularOfferItem extends StatelessWidget {
                   Spacer(),
                   Text(
                     // Strings.newYear,
-                    itemData.featuredFlights![index].title.toString(),
+                    itemData.title.toString(),
+                    // itemData.name!.first.toString(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -82,7 +98,7 @@ class PopularOfferItem extends StatelessWidget {
           ),
             );
         }
-    ),
+    );}
     );
 
   }

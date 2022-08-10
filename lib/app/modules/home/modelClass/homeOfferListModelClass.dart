@@ -87,7 +87,7 @@ class App {
         this.allowAgentRegistration,
         this.suppliersRegistration,
         this.gmapKey,
-        this.defaultLanguage,
+        this.defaultValueLanguage,
         this.multiCurrency,
         this.multiLanguage,
         this.currencyCode,
@@ -109,7 +109,7 @@ class App {
     bool? allowAgentRegistration;
     bool? suppliersRegistration;
     String? gmapKey;
-    String? defaultLanguage;
+    String? defaultValueLanguage;
     bool? multiCurrency;
     bool? multiLanguage;
     String? currencyCode;
@@ -131,7 +131,7 @@ class App {
         allowAgentRegistration: json["allow_agent_registration"],
         suppliersRegistration: json["suppliers_registration"],
         gmapKey: json["gmap_key"],
-        defaultLanguage: json["default_language"],
+        defaultValueLanguage: json["defaultValue_language"],
         multiCurrency: json["multi_currency"],
         multiLanguage: json["multi_language"],
         currencyCode: json["currency_code"],
@@ -154,7 +154,7 @@ class App {
         "allow_agent_registration": allowAgentRegistration,
         "suppliers_registration": suppliersRegistration,
         "gmap_key": gmapKey,
-        "default_language": defaultLanguage,
+        "defaultValue_language": defaultValueLanguage,
         "multi_currency": multiCurrency,
         "multi_language": multiLanguage,
         "currency_code": currencyCode,
@@ -286,7 +286,7 @@ class Currency {
         decimals: json["decimals"],
         symbolPlacement: symbolPlacementValues.map![json["symbol_placement"]],
         primaryOrder: json["primary_order"],
-        currencyDefault: json["default"],
+        currencyDefault: json["defaultValue"],
         status: json["status"],
     );
 
@@ -299,7 +299,7 @@ class Currency {
         "decimals": decimals,
         "symbol_placement": symbolPlacementValues.reverse[symbolPlacement],
         "primary_order": primaryOrder,
-        "default": currencyDefault,
+        "defaultValue": currencyDefault,
         "status": status,
     };
 }
@@ -680,7 +680,7 @@ class Language {
         name: json["name"],
         rtl: json["rtl"],
         country: json["country"],
-        languageDefault: json["default"],
+        languageDefault: json["defaultValue"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -688,7 +688,7 @@ class Language {
         "name": name,
         "rtl": rtl,
         "country": country,
-        "default": languageDefault,
+        "defaultValue": languageDefault,
     };
 }
 

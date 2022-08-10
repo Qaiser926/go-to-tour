@@ -7,6 +7,8 @@ import 'package:go_tour/app/modules/HotelDetails/components/tab_section_componen
 import '../controllers/hotel_details_controller.dart';
 
 class HotelDetailsView extends GetView<HotelDetailsController> {
+
+  dynamic argumentData = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

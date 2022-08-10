@@ -9,6 +9,8 @@ import 'package:go_tour/app/modules/home/controllers/home_controller.dart';
 import 'package:go_tour/app/modules/home/components/hotel_near_you_item.dart';
 import 'package:go_tour/app/modules/home/components/popular_offer_item.dart';
 import 'package:go_tour/app/modules/home/components/top_icon.dart';
+import 'package:go_tour/app/modules/hotelList/views/hotel_list_view.dart';
+import 'package:go_tour/app/modules/offers/views/offers_view.dart';
 import 'package:go_tour/app/modules/search/views/search_flight_view.dart';
 import 'package:go_tour/app/modules/ticketDetails/views/ticket_details_view.dart';
 import 'package:go_tour/app/routes/app_pages.dart';
@@ -16,9 +18,15 @@ import 'package:go_tour/constants/custom_colors.dart';
 import 'package:go_tour/constants/custom_images.dart';
 import 'package:go_tour/constants/strings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart' as http;
 
 // class BottomHomeView extends GetView<HomeController> {
 class BottomHomeView extends GetView<HomeController> {
+
+
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+  int a=20;
+
 
   // HomeController dataController=Get.put(HomeController());
   // BottomHomeView({Key? key}) : super(key: key);
@@ -37,6 +45,7 @@ class BottomHomeView extends GetView<HomeController> {
   );
 
 
+
   // @override
   // void initState() {
   //   // TODO: implement initState
@@ -47,17 +56,16 @@ class BottomHomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body:  SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
             _buildSliverHead(),
+            // Text('asf'),
             SliverToBoxAdapter(child: popularOffer()),
             SliverToBoxAdapter(child: hotelNearYou()),
           ],
         ),
       ),
-
-
     );
   }
 
@@ -162,8 +170,11 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
  // List<dynamic> ontap=[SearchFlightView(), FlightView(),
  //   TicketDetailsView(),  CheckoutView(),];
 
-  HomeController controller=Get.find();
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   HomeController homeController=Get.put(HomeController());
+
+
 
   
   final HomeController c =Get.find();
@@ -266,7 +277,11 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset(CustomImages.menuIcon),
+                    InkWell(
+                        onTap:(){
+
+                        },
+                        child: SvgPicture.asset(CustomImages.menuIcon)),
                     SvgPicture.asset(CustomImages.avatarIcon),
                   ],
                 ),
@@ -314,50 +329,81 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
               // child: topRowIcon(),
                 child:
                  Container(
+                   child: Obx(() {
+                     //  controller.isDataLoading.value?Center(
+                     //   child: CircularProgressIndicator(),
+                     // ):
+                     if (homeController.isLoading.value) {
+                       return Center(child: const CircularProgressIndicator());
+                     }
+                     if (homeController.isEmptyData.value) {
+                       return Center(
+                           child: InkWell(
+                             onTap: () {},
+                             child: const Text("No Data Found"),
+                           ));
+                     }
+                     return ListView.builder(
+                       scrollDirection: Axis.horizontal,
 
-                   child: Obx(()=>
-                //  controller.isDataLoading.value?Center(
-                //   child: CircularProgressIndicator(),
-                // ):
+                       padding: EdgeInsets.all(8),
+                       // itemCount: data!.length,
+                       itemCount: homeController.modal.value.modules?.length,
+                       // itemCount: 3,
+                       // itemCount: homeController.modal.value.results!.length,
+                       itemBuilder: (context, index) {
+                         var item = homeController.modal.value.modules![index];
+                         // var item = homeController.modal.value.results![index];
+                         return
+                           homeController.isLoading.value
+                               ? CircularProgressIndicator(
+                             color: Colors.blue,
+                           ):
+                           Container(
+                           width: MediaQuery
+                               .of(context)
+                               .size
+                               .width * 0.25,
+                           child: Column(
+                             children: [
+                               InkWell(
+                                 onTap: () {
+                                   // Get.to(SearchFlightView());
+                                   if(index==0){
+                                     Get.to(HotelListView());
+                                   }else if(index==1){
+                                     Get.to(FlightView());
+                                   }else if(index==2){
+                                     Get.to(HotelListView());
+                                   }else if(index==3){
+                                     Get.to(SearchFlightView());
+                                   }
 
-                   ListView.builder(
-                     scrollDirection: Axis.horizontal,
-
-                     padding: EdgeInsets.all(8),
-                     // itemCount: data!.length,
-                     itemCount: homeController.getposts.length,
-                     // itemCount: controller.listData!.results!.length,
-                     itemBuilder: (context, index) {
-                       var item=homeController.getposts[index];
-                       return Container(
-                         width: MediaQuery.of(context).size.width*0.25,
-                         child: Column(
-                           children: [
-                             InkWell(
-                               onTap: (){
-                                 Get.to(SearchFlightView());
-                               },
-                               child: TopIcon(
-                                 color: colors[index],
-                                 // onTap: Get.to(ontap[index]),
-                                 image: image[index],
+                                 },
+                                 child: TopIcon(
+                                   color: colors[index],
+                                   // onTap: Get.to(ontap[index]),
+                                   image: image[index],
+                                 ),
                                ),
-                             ),
-                             // Text( controller.listData!.results![index].name.toString(),
-                             Text(item.modules![index].name.toString(),
-                               style: TextStyle(
-                                 color: CustomColors.deepGray,
-                                 fontSize: 14.sp,
-                                 height: 1.5,
-                               ),)
-                             // Text(item.modules![index].name.toString())
-                             // Text(item.modules![index].name.toString())
-                           ],
-                         ),
-                       );
-                     },
-                   ),
-                     ),
+                               // Text( controller.listData!.results![index].name.toString(),
+                               Text(item.name.toString(),
+                                 // Text(item.results![index].name!.title.toString(),
+                                 style: TextStyle(
+                                   color: CustomColors.deepGray,
+                                   fontSize: 14.sp,
+                                   height: 1.5,
+                                 ),)
+                               // Text(item.modules![index].name.toString())
+                               // Text(item.modules![index].name.toString())
+                             ],
+                           ),
+                         );
+                       },
+                     );
+
+                   }  ),
+
                  )
                /* c.obx(
                         (data) => ListView.builder(

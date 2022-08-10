@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:go_tour/app/modules/flight/components/flight_card_component.dart';
+import 'package:go_tour/app/modules/home/controllers/home_controller.dart';
 import 'package:go_tour/app/routes/app_pages.dart';
 import 'package:go_tour/constants/custom_colors.dart';
 import 'package:go_tour/constants/custom_images.dart';
@@ -11,6 +12,7 @@ import 'package:go_tour/utils/utils.dart';
 import '../controllers/flight_controller.dart';
 
 class FlightView extends GetView<FlightController> {
+  final homecontroller=Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,28 +41,16 @@ class FlightView extends GetView<FlightController> {
       body: ListView(
         children: [
           _buildHOraizontalDate(),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: CustomColors.primary,
-            ),
-            child: ListView.separated(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              separatorBuilder: (_, int i) {
-                return SizedBox(height: 16);
-              },
-              itemCount: 10,
-              itemBuilder: (_, int index) => FlightCardComponent(),
-            ),
-          )
+          FlightCardComponent(),
         ],
       ),
     );
   }
 
+
+
   Widget _buildHOraizontalDate() {
+    final controller=Get.put(FlightController());
     return Container(
       height: 110,
       padding: const EdgeInsets.symmetric(vertical: 24),

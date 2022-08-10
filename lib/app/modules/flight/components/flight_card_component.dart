@@ -3,42 +3,126 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:go_tour/app/components/dash_line_painter.dart';
 import 'package:go_tour/app/components/dol_durma_clipper.dart';
+import 'package:go_tour/app/modules/home/controllers/home_controller.dart';
 import 'package:go_tour/app/routes/app_pages.dart';
 import 'package:go_tour/constants/custom_colors.dart';
 
-class FlightCardComponent extends StatelessWidget {
-  const FlightCardComponent({Key? key}) : super(key: key);
+class FlightCardComponent extends StatefulWidget {
+   FlightCardComponent({Key? key}) : super(key: key);
+
+  @override
+  State<FlightCardComponent> createState() => _FlightCardComponentState();
+}
+
+class _FlightCardComponentState extends State<FlightCardComponent> {
+  // final homeController=Get.find<HomeController>();
+
+
+   HomeController homeController=Get.put(HomeController());
+
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: DolDurmaClipper(holeRadius: 20),
-      child: InkWell(
-        onTap: () => Get.toNamed(Routes.SELECT_SEAT),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
+    return Obx(() =>   ListView.builder(
+      itemCount:
+      homeController.modal.value.featuredFlights!.length,
+      itemBuilder: (context,index){
+        return   ClipPath(
+          clipper: DolDurmaClipper(holeRadius: 20),
+          child: InkWell(
+              onTap: () => Get.toNamed(Routes.SELECT_SEAT),
+              child:    Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: CustomColors.primary,
+                  ),
+                  child:Obx(()
+                  {
+                    if (homeController.isLoading.value) {
+                      return Center(child: const CircularProgressIndicator());
+                    }
+                      if (homeController.isEmptyData.value) {
+                      return Center(
+                          child: InkWell(
+                            onTap: () {},
+                            child: const Text("No Data Found"),
+                          ));
+                    }
+                    return
+                      ListView.separated(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          separatorBuilder: (c,i){
+                            return Text('a');
+                          },
+                          // itemCount: homeController.modal.value.featuredFlights!.length,
+                          itemCount: 10,
+                          // itemBuilder: (_, int index) => FlightCardComponent(),
+                          itemBuilder: (_, int index) =>  Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.white,
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 24),
+                            child:   Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white,
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 24),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _cardHeader(),
+                                  Container(
+                                      margin: const EdgeInsets.symmetric(vertical: 12),
+                                      height: 1,
+                                      color: const Color(0xffE5E5E5)),
+                                  _cardBody(),
+                                  _lineWithBus(),
+                                  _cardFooter(),
+                                ],
+                              ),
+                            ),
+
+                          )
+                      );
+                  }
+                  )
+
+                /* ListView.builder(
+        itemCount: homeController.modal.value.featuredFlights!.length,
+          itemBuilder: (context,index){
+            final listData=homeController.modal.value.featuredFlights![index];
+            return  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // _cardHeader(),
+                Text('asdf'),
+
+                Container(
+                    margin: const EdgeInsets.symmetric(vertical: 12),
+                    height: 1,
+                    color: const Color(0xffE5E5E5)),
+                _cardBody(),
+                _lineWithBus(),
+                _cardFooter(),
+              ],
+            );
+          },
+        )*/
+              )
+
           ),
-          padding: const EdgeInsets.symmetric(vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _cardHeader(),
-              Container(
-                  margin: const EdgeInsets.symmetric(vertical: 12),
-                  height: 1,
-                  color: const Color(0xffE5E5E5)),
-              _cardBody(),
-              _lineWithBus(),
-              _cardFooter(),
-            ],
-          ),
-        ),
-      ),
+        );
+      },
+    )
     );
+
   }
 
+   // Container(
   Container _lineWithBus() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
@@ -198,7 +282,7 @@ class FlightCardComponent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Comilla',
+                'to',
                 style: TextStyle(
                     color: CustomColors.primary,
                     fontSize: 18,

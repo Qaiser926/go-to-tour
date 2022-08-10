@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:go_tour/app/modules/home/controllers/home_controller.dart';
 import 'package:go_tour/constants/custom_colors.dart';
 import 'package:go_tour/constants/strings.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/routes/app_pages.dart';
@@ -24,10 +26,13 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+
+   MyApp({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
+
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: () => GetMaterialApp(

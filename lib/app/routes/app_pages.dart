@@ -21,6 +21,7 @@ import 'package:go_tour/app/modules/auth/register/views/register_view.dart';
 import 'package:go_tour/app/modules/flight/bindings/flight_binding.dart';
 import 'package:go_tour/app/modules/flight/views/flight_view.dart';
 import 'package:go_tour/app/modules/home/bindings/home_binding.dart';
+import 'package:go_tour/app/modules/home/modelClass/homeOfferListModelClass.dart';
 import 'package:go_tour/app/modules/home/navBarBottomViews/profile_view.dart';
 import 'package:go_tour/app/modules/home/views/home_view.dart';
 import 'package:go_tour/app/modules/hotelList/bindings/hotel_list_binding.dart';
@@ -145,8 +146,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.HOTEL_LIST,
-      page: () => HotelListView(),
+      page: () {
+      return  HotelListView();
+      //   HomeOfferListModelClass dataPass=Get.arguments;
+      //   return dataPass;
+      },
       binding: HotelListBinding(),
+
     ),
     GetPage(
       name: _Paths.OFFERS,
